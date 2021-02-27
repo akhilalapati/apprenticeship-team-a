@@ -11,12 +11,15 @@ const indexRouter = require("./routes/index");
 
 const app = express();
 
-//dbConfig
+//dbConfig  MONGO ATLAS  mongodb+srv://MediaConnect:mediaconnect@feb1921.dlpbg.mongodb.net "mongodb://localhost:27017/MyDb"
 mongoose
-	.connect("mongodb://localhost:27017/instagramClone", {
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-	})
+	.connect(
+		"mongodb+srv://MediaConnect:MediaConnect@cluster0.dd58v.mongodb.net/MediaConnect?retryWrites=true&w=majority",
+		{
+			useNewUrlParser: true,
+			useUnifiedTopology: true,
+		},
+	)
 	.then(() => console.log("db connection Successful"))
 	.catch((err) => console.log(err));
 // view engine setup

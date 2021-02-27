@@ -1,7 +1,11 @@
 .InstaPagePosts {
 	display: flex;
-	flex-direction: column;
+	flex-direction: column-reverse;
 	justify-content: center;
 	align-items: center;
 	margin-top: 180px;
+}
+.post__Loading {
+	margin-top: 20%;
+	margin-left: 50%;
 }

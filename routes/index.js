@@ -22,6 +22,20 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage });
 
+router.get("/post", function (req, res) {
+	Post.find()
+		.then((result) => {
+			res.status(200).json({
+				postData: result,
+			});
+			console.log(result);
+		})
+		.catch((err) => {
+			console.log(err);
+			res.status(500).json({ error: err });
+		});
+});
+/* 
 router.get("/post", (req, res) => {
 	Post.find({}, (err, items) => {
 		if (err) {
@@ -31,7 +45,7 @@ router.get("/post", (req, res) => {
 			res.render("index", { items: items });
 		}
 	});
-});
+}); */
 
 router.post("/post", upload.single("image"), (req, res, next) => {
 	var imageFile = req.file.filename;
@@ -78,18 +92,18 @@ router.post("/post", upload.single("image"), (req, res, next) => {
 // });
 
 /* getiing post from db */
-router.get("/posts", function (req, res) {
-	Post.find()
-		.then((result) => {
-			res.status(200).json({
-				postData: result,
-			});
-			console.log(result);
-		})
-		.catch((err) => {
-			console.log(err);
-			res.status(500).json({ error: err });
-		});
+
+router.put("/like/:id", async function (req, res, next) {
+	const changeLikes = await Post.findById(req.params.id);
+	changeLikes.likes = changeLikes.likes + 1;
+	await changeLikes.save();
+});
+
+router.delete("/delete/:id", async function (req, res, next) {
+	const id = req.params.id;
+	await Post.findByIdAndDelete(id).then((res) => {
+		res.json().status(200);
+	});
 });
 
 module.exports = router;

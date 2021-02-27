@@ -3,66 +3,80 @@ import "./InstagramPage.css";
 import Post from "../Post/Post";
 import Header from "../Header/Header";
 function InstagramPage() {
-	const [posts, setPosts] = useState([
-		// {
-		// 	username: "srikar",
-		// 	location: "Hyderabad",
-		// 	date: Date.now(),
-		// 	description: "Iam srikar",
-		// 	imageUrl: "https://www.w3schools.com/howto/img_avatar.png",
-		// },
-		// {
-		// 	username: "vineeeth",
-		// 	location: "Bangalore",
-		// 	date: Date.now(),
-		// 	description: "OHH I AM MAKING INSTACLONE",
-		// 	imageUrl:
-		// 		"https://media.istockphoto.com/photos/child-hands-formig-heart-shape-picture-id951945718?k=6&m=951945718&s=612x612&w=0&h=ih-N7RytxrTfhDyvyTQCA5q5xKoJToKSYgdsJ_mHrv0=",
-		// },
-		// {
-		// 	username: "anshika",
-		// 	location: "Hyderabad",
-		// 	date: Date.now(),
-		// 	description: "AngelHere",
-		// 	imageUrl:
-		// 		"https://www.adobe.com/content/dam/cc/us/en/products/creativecloud/stock/stock-riverflow1-720x522.jpg.img.jpg",
-		// },
-		// {
-		// 	username: "akhil",
-		// 	location: "Hyderabad",
-		// 	date: Date.now(),
-		// 	description: "Solitude",
-		// 	imageUrl:
-		// 		"https://www.gettyimages.com/gi-resources/images/500px/983794168.jpg",
-		// },
-	]);
+	const [posts, setPosts] = useState([]);
+	const [Loading, setLoading] = useState(false);
 
-	useEffect(() => {
-		fetch("http://localhost:9000/posts")
+	/* async function callAPI() {
+		const res = await fetch("http://localhost:9000/post");
+		res.json();
+		return res.json();
+
+	}
+
+	useEffect( () => {
+
+		const posts = callAPI();
+
+		await fetch("http://localhost:9000/post")
 			.then((response) => response.json())
 			.then((result) => {
 				console.log(result);
+				console.log(result.postData.length);
 				setPosts(result.postData);
+				setLoading(true);
 			});
+	}, []); */
+
+	async function fetchposts() {
+		setPosts([]);
+		const res = await fetch("https://mediaconnect.herokuapp.com/post");
+		res.json().then((res) => setPosts(res.postData), setLoading(true));
+	}
+	useEffect(() => {
+		fetchposts();
 	}, []);
 
-	let postarray = [...posts].reverse();
+const handleDelete = (id) => {
+		console.log("in handle delete function");
+		fetch("https://mediaconnect.herokuapp.com/delete/" + `${id}`, {
+			method: "delete",
+		})
+			.then(fetchposts())
+			.catch((err) => {
+				console.log(err);
+			});
+		console.log("delete post");
+		fetchposts();
+		console.log("setting data to other variable /outside/ ");
+	};
+	let postsArray = [...posts];
+	if (!Loading || postsArray.length === 0) {
+		return (
+			<div>
+				<Header />
+				<h3 className="post__Loading">
+					<i>Loading.....</i>
+				</h3>
+			</div>
+		);
+	}
 	return (
 		<div>
 			<Header />
 			<div className="InstaPagePosts">
-				{postarray.map((post) => (
+				{postsArray.map((post) => (
 					<Post
+						key={post.id}
 						username={post.username}
 						location={post.location}
 						image={post.image}
 						description={post.description}
-						date={post.date}
+						date={post.timestamp}
+						dblikes={post.likes}
+						postId={post._id}
+						fetchpost={handleDelete}
 					/>
 				))}
-				<h3>
-					<i>Create Post</i>
-				</h3>
 			</div>
 		</div>
 	);

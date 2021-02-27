@@ -23,6 +23,10 @@ const postSchema = new mongoose.Schema({
 		type: Date,
 		default: Date.now,
 	},
+	likes: {
+		type: Number,
+		default: 64,
+	},
 });
 //collection creation
 // const Post = new mongoose.model("Post",postSchema);

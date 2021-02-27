@@ -32,12 +32,13 @@ function UploadPost() {
 		data.append("description", Description);
 		data.append("username", Author);
 		data.append("location", Location);
-
-		fetch("http://localhost:9000/post", {
+		fetch("https://mediaconnect.herokuapp.com/post", {
 			method: "POST",
 			body: data,
 		})
-			.then((res) => res.json())
+			.then(() => {
+				history.push("/posts");
+			})
 			.then((data) => {
 				console.log(data);
 			});
@@ -60,7 +61,12 @@ function UploadPost() {
 			<div className="display">
 				{/* <form action="/upload" method="post" encType="multipart/form-data"> */}
 				<div className="imageurl">
-					<input className="text" placeholder="Choose file" value={filename} />
+					<input
+						className="text"
+						placeholder="Choose file"
+						value={filename}
+						readOnly
+					/>
 					<input
 						type="file"
 						className="browse"
@@ -112,7 +118,6 @@ function UploadPost() {
 						type="submit"
 						onClick={() => {
 							postDetails();
-							navigate();
 						}}
 						className={
 							Author !== "" &&
@@ -121,6 +126,14 @@ function UploadPost() {
 							filename !== ""
 								? "Activepostbutton"
 								: "postbutton"
+						}
+						disabled={
+							Author !== "" &&
+							Location !== "" &&
+							Description !== "" &&
+							filename !== ""
+								? false
+								: true
 						}
 					>
 						Post

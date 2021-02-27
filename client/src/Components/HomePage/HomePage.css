@@ -40,7 +40,7 @@
 	margin-bottom: 0;
 	margin-right: 448px;
 	text-align: left; */
-	font: normal normal normal 8vh/12vh Palatino;
+	font: normal normal normal 7vh/12vh Palatino;
 	letter-spacing: 0px;
 	color: #006238;
 	opacity: 1;
@@ -63,4 +63,7 @@
 	/* place-items: center;
 	align-items: center; */
 	padding: 23vh 0vh 0vh 10vh;
+}
+* {
+	cursor: pointer;
 }
