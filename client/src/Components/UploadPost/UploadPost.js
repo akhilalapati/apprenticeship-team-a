@@ -26,7 +26,7 @@ function UploadPost() {
 		setDescription(e.target.value);
 	};
 
-	const postDetails = () => {
+	const postDetails = async (e) => {
 		console.log("clicked");
 		const data = new FormData();
 		data.append("image", file);
@@ -52,12 +52,17 @@ function UploadPost() {
 		// setDescription("");
 	};
 
+	const navigate = async (e) => {
+		history.push("/posts");
+	};
+
 	return (
 		<div>
 			<Header />
 			<div className="display">
 				{/* <form action="/upload" method="post" encType="multipart/form-data"> */}
 				<div className="imageurl">
+
 					<input
 						className="text"
 						placeholder="Choose file"
@@ -124,6 +129,7 @@ function UploadPost() {
 								? "Activepostbutton"
 								: "postbutton"
 						}
+
 						disabled={
 							Author !== "" &&
 							Location !== "" &&
@@ -132,6 +138,7 @@ function UploadPost() {
 								? false
 								: true
 						}
+
 					>
 						Post
 					</button>

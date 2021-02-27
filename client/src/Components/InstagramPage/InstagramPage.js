@@ -65,6 +65,7 @@ function InstagramPage() {
 			<Header />
 			<div className="InstaPagePosts">
 				{postsArray.map((post) => (
+
 					<Post
 						key={post.id}
 						username={post.username}
