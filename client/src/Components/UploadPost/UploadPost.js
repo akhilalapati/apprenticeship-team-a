@@ -10,7 +10,6 @@ function UploadPost() {
 	const [Description, setDescription] = useState("");
 	const [file, setFile] = useState("");
 	const history = useHistory();
-
 	const handleBrowse = (e) => {
 		setFile(e.target.files[0]);
 		setFileName(e.target.files[0].name);
@@ -26,7 +25,7 @@ function UploadPost() {
 		setDescription(e.target.value);
 	};
 
-	const postDetails = () => {
+	const postDetails = async (e) => {
 		console.log("clicked");
 		const data = new FormData();
 		data.append("image", file);
@@ -50,6 +49,10 @@ function UploadPost() {
 		// // setAuthor("");
 		// setLocation("");
 		// setDescription("");
+	};
+
+	const navigate = async (e) => {
+		history.push("/posts");
 	};
 
 	return (

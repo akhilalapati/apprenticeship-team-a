@@ -36,7 +36,7 @@ function InstagramPage() {
 		fetchposts();
 	}, []);
 
-	const handleDelete = (id) => {
+const handleDelete = (id) => {
 		console.log("in handle delete function");
 		fetch("https://mediaconnect.herokuapp.com/delete/" + `${id}`, {
 			method: "delete",
